@@ -1,0 +1,34 @@
+{% comment %} 
+  আমরা যেখানেই এই স্নীপেট কল করব, সেখান থেকে 'card_product' নামে প্রোডাক্টের ডাটা পাস করব।
+{% endcomment %}
+
+<div class="my-custom-card" style="border: 1px solid #ddd; padding: 15px; text-align: center; border-radius: 8px; margin-bottom: 15px; box-shadow: 2px 2px 5px rgba(0,0,0,0.05);">
+  
+  {% if card_product.featured_image %}
+    <img 
+  src="{{ card_product.featured_image | image_url: width: 200 }}" 
+  alt="{{ card_product.title | escape }}"
+  width="200"
+  height="{{ 200 | divided_by: card_product.featured_image.aspect_ratio | round }}"
+  loading="lazy"
+  style="max-width: 100%; height: auto;"
+>
+  {% endif %}
+
+  <h3 style="font-size: 18px; margin: 10px 0;">{{ card_product.title }}</h3>
+  
+  <p style="color: #555; font-weight: bold;">
+    {{ card_product.price | money }}
+  </p>
+
+  {% if card_product.available %}
+    <button style="background-color: #000; color: #fff; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">
+      Add to Cart
+    </button>
+  {% else %}
+    <button disabled style="background-color: #ccc; color: #666; padding: 10px 15px; border: none; border-radius: 4px;">
+      Out of Stock
+    </button>
+  {% endif %}
+  
+</div>

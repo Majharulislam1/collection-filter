@@ -1,0 +1,77 @@
+{% comment %}
+      এটা লিকুইডের কমেন্ট ট্যাগ, ব্রাউজারে এটা দেখা যাবে না
+{% endcomment %}
+
+<h2>
+    ১. সাধারণ টেক্সট আউটপুট: 
+</h2>
+ <p> 
+    আমার স্টোরের নাম: {{ shop.name }}
+ </p>
+
+<hr>
+
+<h2> 
+    ফিল্টারের (Filters) ব্যবহার:
+</h2>
+
+{% assign my_name = 'Majharulislam' %} {% comment %} assing assign দিয়ে ভেরিয়েবল তৈরি করা হয়{% endcomment %}
+
+<p> নরমাল নাম:  {{ my_name }}  </p> 
+<p> সব বড় হাতের অক্ষর : {{ my_name | upcase }} </p>
+<p> প্রথম অক্ষর বড় হাত : {{ my_name | capitalize }} </p> 
+
+
+<hr> 
+
+<h3> logic and condition </h3> 
+
+{%  assign product_price = 150 %}
+{% assign free_shipping_threshold = 250 %}
+
+<p> Product Price : ${{ product_price }} </p>
+
+{% if product_price >= free_shipping_threshold %}
+
+ <p style="color:green"> 🎉 অভিনন্দন! আপনি এই প্রোডাক্টে ফ্রি শিপিং পাচ্ছেন।</p>
+
+ {% else %} 
+   
+   {% assign short_amount = free_shipping_threshold | minus:product_price %}
+
+   <p style="color: red;">⚠️ ফ্রি শিপিং পেতে আপনাকে আরও ${{ short_amount }} ডলারের কেনাকাটা করতে হবে।</p>
+
+{% endif %} 
+
+
+<hr>
+
+
+{% comment %}
+  আমরা সরাসরি স্টোরের কালেকশন থেকে ডাটা নিতে পারি, 
+আপাতত শেখার জন্য আমরা একটা লিমিট (limit: 3) দিয়ে ৩টি প্রোডাক্ট দেখাবো।
+{% endcomment %}
+
+<h2> Product for loop </h2>
+
+<ul>
+     
+      {% for product in collections.all.products limit:5 %} 
+      
+       <li> 
+            
+        <strong> {{ product.title | upcase }}  </strong> - {{ product.price | money }}
+
+        {% if product.available == false  %}
+
+     
+        <span style="color: red;">(স্টক শেষ)</span>
+        {% else %}
+            <span style="color: green;">{{ product.variants.first.inventory_quantity }}</span>
+        {% endif %}        
+          
+       </li>
+
+       {% endfor %}
+    
+</ul>

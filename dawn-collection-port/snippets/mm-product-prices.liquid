@@ -1,0 +1,109 @@
+{%- liquid
+  assign selected_variant = selected_variant | default: product.selected_or_first_available_variant
+  if use_variant
+    assign target = selected_variant
+  else
+    assign target = product
+  endif
+
+  assign compare_at_price = target.compare_at_price
+  assign price = target.price | default: 1999
+
+  assign available = target.available | default: false
+  assign money_price = price | money
+  assign price_min = product.price_min
+  assign price_max = product.price_max
+  assign money_price_min = price_min | money
+  assign money_price_max = price_max | money
+
+  assign sale_badge_type = sale_badge_type | default: 'percentage'
+-%}
+
+<div
+  class="
+    m-price m:inline-flex m:items-center m:flex-wrap
+    {%- if alignment %} m-price--{{ alignment }}{% endif -%}
+    {%- if price_class %} {{ price_class }}{% endif -%}
+    {%- if available == false %} m-price--sold-out {% endif -%}
+    {%- if compare_at_price > price %} m-price--on-sale {% endif -%}
+  "
+  data-sale-badge-type="{{ sale_badge_type }}"
+>
+  <div class="m-price__regular">
+    {%- if product.quantity_price_breaks_configured? -%}
+      <span class="m:visually-hidden m:visually-hidden--inline">{%- render 'mm-new-locale', key: 'products.product.price.regular_price' -%}</span>
+      <span class="m-price-item m-price-item--regular {{ price_text_size }}">
+        {%- render 'mm-new-locale',
+          key: 'products.product.volume_pricing.price_range_html',
+          param: '{{ minimum }}',
+          value: money_price_min,
+          param_2: '{{ maximum }}',
+          value_2: money_price_max
+        -%}
+      </span>
+    {%- else -%}
+      <span class="m:visually-hidden m:visually-hidden--inline">{%- render 'mm-new-locale', key: 'products.product.price.regular_price' -%}</span>
+      <span class="m-price-item m-price-item--regular {{ price_text_size }}">
+        {{ money_price }}
+      </span>
+    {%- endif -%}
+  </div>
+  <div class="m-price__sale">
+    <span class="m:visually-hidden m:visually-hidden--inline">{%- render 'mm-new-locale', key: 'products.product.price.sale_price' -%}</span>
+    <span class="m-price-item m-price-item--sale m-price-item--last {{ price_text_size }}">
+      {{ money_price }}
+    </span>
+    <span class="m:visually-hidden m:visually-hidden--inline">{%- render 'mm-new-locale', key: 'products.product.price.regular_price' -%}</span>
+    <s class="m-price-item m-price-item--regular">
+      {{ compare_at_price | money }}
+    </s>
+  </div>
+  <div class="m-price__unit-wrapper{% if selected_variant.unit_price_measurement == nil %} m:hidden{% endif %}">
+    <span class="m:visually-hidden">{%- render 'mm-new-locale', key: 'products.product.price.unit_price' -%}</span>
+    <div class="m-price__unit">
+      {%- capture unit_price_separator -%}
+        <span aria-hidden="true">/</span>
+      {%- endcapture -%}
+      {%- capture unit_price_base_unit -%}
+        <span data-unit-price-base-unit>
+          {%- if selected_variant.unit_price_measurement -%}
+            {%- if selected_variant.unit_price_measurement.reference_value != 1 -%}
+              {{- selected_variant.unit_price_measurement.reference_value -}}
+            {%- endif -%}
+            {{ selected_variant.unit_price_measurement.reference_unit }}
+          {%- endif -%}
+        </span>
+      {%- endcapture -%}
+      <span data-unit-price>{{ selected_variant.unit_price | money }}</span>
+      {{- unit_price_separator -}}
+      {{- unit_price_base_unit -}}
+    </div>
+  </div>
+
+  {% if show_sale_badge %}
+    <div class="m-price__badges">
+      {% liquid
+        assign save_amount = 0
+        if compare_at_price > price
+          assign save_amount = compare_at_price | minus: price
+        endif
+
+        assign discount = ''
+        if sale_badge_type == 'percentage'
+          assign discount = save_amount | times: 100.0 | divided_by: compare_at_price | round | append: '%'
+        elsif sale_badge_type == 'fixed_amount'
+          assign discount = save_amount | money
+        endif
+      %}
+      <div class="m-price__badge-sale" data-type="{{ sale_badge_type }}">
+        <span class="m-product-tag m-product-tag--sale">
+          {% unless sale_badge_type == 'text' %}
+            {% render 'mm-new-locale', key: 'products.product.save_html', param: '{{ amount }}', value: discount %}
+          {% else %}
+            {% render 'mm-new-locale', key: 'products.product.sale_text' %}
+          {% endunless %}
+        </span>
+      </div>
+    </div>
+  {% endif %}
+</div>

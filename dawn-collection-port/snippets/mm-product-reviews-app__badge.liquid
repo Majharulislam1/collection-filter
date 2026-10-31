@@ -1,0 +1,5 @@
+{% assign review_app = 'shopify' %}
+{% case review_app %}
+  {% when 'shopify' %}
+    <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+{% endcase %}

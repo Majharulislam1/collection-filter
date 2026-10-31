@@ -1,0 +1,77 @@
+{
+  "general": {
+    "tooltip": {
+      "not_found": "Tooltip type not found"
+    },
+    "time": {
+      "days": "days",
+      "hours": "hours",
+      "hrs": "hrs",
+      "minutes": "minutes",
+      "mins": "mins",
+      "seconds": "seconds",
+      "secs": "secs"
+    }
+  },
+  "products": {
+    "product": {
+      "volume_pricing": {
+        "price_range_html": "{{ minimum }} - {{ maximum }}"
+      },
+      "quick_add": "Quick Add",
+      "add_to_wishlist": "Add to wishlist",
+      "in_stock": "In Stock",
+      "select_options": "Select options",
+      "save_html": "Save <span class=\"m-currency--saved m:font-medium\" data-saved-price>{{ amount }}</span>",
+      "inventory_low_quantity_html": "Only <span class=\"m-product-inventory__quantity\">{{ quantity }}</span> left",
+      "inventory_quantity_html": "<span class=\"m-product-inventory__quantity\">{{ quantity }}</span> In stock",
+      "remove_from_wishlist": "Remove from wishlist",
+      "quick_view": "Quick view",
+      "add_to_compare": "Compare",
+      "remove_from_compare": "Remove from compare",
+      "zoom_in": "Zoom in",
+      "from_text_html": "From {{ price }}",
+      "sale_text": "Sale",
+      "on_sale": "Sale",
+      "sold_out": "Sold out",
+      "see_more_options": "See {{ count }} more option(s)",
+      "backordered": "Backordered",
+      "low_stock": "Low stock"
+    }
+  },
+  "sections": {
+    "collection_template": {
+      "from": "From",
+      "to": "To"
+    }
+  },
+  "customer": {
+    "account_fallback": "Account"
+  },
+  "collections": {
+    "general": {
+      "no_matches": "Sorry, there are no products in this collection"
+    },
+    "paginate": {
+      "load_more": "Load More"
+    },
+    "toolbar": {
+      "show_filter": "Filter",
+      "view_list": "List",
+      "grid_2cloumns": "2 columns",
+      "grid_3cloumns": "3 columns",
+      "grid_4cloumns": "4 columns",
+      "grid_5cloumns": "5 columns"
+    },
+    "sidebar": {
+      "clear_all": "Clear all"
+    },
+    "sorting": {
+      "title": "Sort by"
+    }
+  },
+  "socialshopwave": {
+    "fave": "Fave"
+  }
+}
+

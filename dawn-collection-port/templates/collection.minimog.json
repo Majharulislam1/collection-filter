@@ -1,0 +1,84 @@
+{
+  "sections": {
+    "product-grid": {
+      "type": "main-collection-minimog",
+      "blocks": {
+        "filter_size": {
+          "type": "filter",
+          "settings": {
+            "design_filtergroup": "button",
+            "title": "Size",
+            "filtergroup": "XS,S,M,L,XL",
+            "show_label": false,
+            "use_accordion": false,
+            "open_filtergroup": true
+          }
+        },
+        "filter_colors": {
+          "type": "filter",
+          "settings": {
+            "design_filtergroup": "color",
+            "title": "Colors",
+            "filtergroup": "Blue, Red, White, Black, Pink, Silver, Purple, Brown, Yellow, Grey, Green, Tan",
+            "show_label": false,
+            "use_accordion": false,
+            "open_filtergroup": true
+          }
+        },
+        "filter_brands": {
+          "type": "filter",
+          "settings": {
+            "design_filtergroup": "inrow",
+            "title": "Brands",
+            "filtergroup": "Minimog,Retrolie,Abby,Brook,Learts,Vagabond",
+            "show_label": false,
+            "use_accordion": true,
+            "open_filtergroup": true
+          }
+        }
+      },
+      "block_order": [
+        "filter_size",
+        "filter_colors",
+        "filter_brands"
+      ],
+      "settings": {
+        "container": "container",
+        "grid_layout": "grid",
+        "grid_columns": "4",
+        "show_columns_switcher": true,
+        "pagination_limit": 16,
+        "paginate_type": "paginate",
+        "show_sorting": true,
+        "show_filter": true,
+        "filters_type": "storefront_filters",
+        "sidebar": "leftColumn",
+        "sidebar_title": "Filters",
+        "animations": "none",
+        "limit_height_widget": false,
+        "limit_height": 300,
+        "change_product_variant_on_fitlering": true,
+        "show_product_count": true,
+        "collapsed_groups": "Brand, Vendor, Size",
+        "color_swatches": "color,colour,couleur,farbe",
+        "color_swatches_design": "inline",
+        "show_badge_sale": true,
+        "show_badge_soldout": true,
+        "show_cart_button": true,
+        "show_quickview_button": false,
+        "show_wishlist_button": false,
+        "show_compare_button": false,
+        "show_second_img": true,
+        "show_swatch_option": false,
+        "show_vendor": false,
+        "uppercase_prd_name": false,
+        "pcard_image_ratio": "3/4",
+        "pcard_alignment": "left",
+        "container_width": 1200
+      }
+    }
+  },
+  "order": [
+    "product-grid"
+  ]
+}

@@ -1,0 +1,123 @@
+
+{% comment %} কার্ট গ্লোবাল অবজেক্ট ব্যবহার করে ফ্রি শিপিং বার {% endcomment %}
+
+{% assign shipping_value = 5000 %} {% comment %} ৫০,০০০ পয়সা = ৫০০০ টাকা বা ৫০০ ডলার (তোমার স্টোরের কারেন্সি অনুযায়ী) {% endcomment %}
+{% assign cart_total = cart.total_price %}
+
+<div class="shipping-bar-container" style="background: #fff; padding: 20px; border: 1px solid #eee; margin-bottom: 20px; border-radius: 8px;">
+  
+  {% if cart_total >= shipping_value %}
+    <p style="margin: 0 0 10px 0; font-weight: bold; color: green; text-align: center;">
+      🎉 অভিনন্দন! আপনি ফ্রি শিপিং আনলক করেছেন!
+    </p>
+    {% assign progress_percent = 100 %}
+  {% else %}
+    {% assign needed_amount = shipping_value | minus: cart_total %}
+    <p style="margin: 0 0 10px 0; font-weight: bold; color: #333; text-align: center;">
+      🛒 আর মাত্র <span style="color: red;">{{ needed_amount | money }}</span> কেনাকাটা করলেই ফ্রি শিপিং!
+    </p>
+    
+    {% comment %} কত পারসেন্ট বার পূর্ণ হবে তা ম্যাথমেটিক্যালি বের করা {% endcomment %}
+    {% assign progress_percent = cart_total | times: 100 | divided_by: shipping_value %}
+  {% endif %}
+  {{  progress_percent }}
+  {% comment %} প্রোগ্রেস বার ডিজাইন {% endcomment %}
+  <div class="progress-bg" style="background: #e0e0e0; width: 100%; height: 12px; border-radius: 6px; overflow: hidden;">
+    <div class="progress-bar" style="background:'#021225'; width: {{ progress_percent }}%; height: 100%; transition: width 0.3s ease;"></div>
+  </div>
+
+  <p style="font-size: 12px; text-align: center; margin: 5px 0 0 0; color: #777;">
+    আপনার কার্টে বর্তমানে <strong>{{ cart.item_count }}টি</strong> প্রোডাক্ট আছে।
+  </p>
+</div>
+
+
+<div
+  class="custom-banner-section"
+  style="background-color: {{ section.settings.bg_color }}; padding: 40px; text-align: center;"
+>
+  <h2 style="color: {{ section.settings.text_color_h2 }};">{{ section.settings.banner_title }}</h2>
+  <p style="color: {{ section.settings.text_color_p }};">{{ section.settings.banner_text }}</p>
+</div>
+
+<div class="features-container" style="display: flex; justify-content: center; gap: 30px; margin-top: 20px; background: #fff; padding: 15px;">
+  
+  {% comment %} এই লুপটি সেকশনের ভেতরের সব ব্লককে এক এক করে খুঁজে বের করবে {% endcomment %}
+  {% for block in section.blocks %}
+    <div class="feature-box" {{ block.shopify_attributes }}>
+      <p style="font-weight: bold; font-size: 16px; margin: 0;">
+        {{ block.settings.feature_text }}
+      </p>
+    </div>
+  {% endfor %}
+
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Custom Banner By Me",
+  "settings": [
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "ব্যানার টাইটেল",
+      "default": "আমাদের নতুন কালেকশন!"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_text",
+      "label": "ব্যানার বিবরণ",
+      "default": "এখানে আপনার অফারের বিস্তারিত লিখুন।"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "ব্যাকগ্রাউন্ড কালার",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "color",
+      "id": "text_color_h2",
+      "label": "টেক্সট কালার H2",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "text_color_p",
+      "label": "টেক্সট কালার P",
+      "default": "#333333"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature_item",
+      "name": "ফিচার আইটেম",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_text",
+          "label": "ফিচারের নাম",
+          "default": "🚀 দ্রুত ডেলিভারি"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Banner By Me"
+    }
+  ]
+
+
+  
+}
+{% endschema %}
+
+
+<div class="product-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 20px;">
+  {% for product in collections.all.products limit: 3 %}
+    {% render 'my-product-card', card_product: product %}
+  {% endfor %}
+</div>
